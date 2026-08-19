@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/favicon.svg">
+<title>SnapMart — Everyday Deals, Great Prices</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1562260132108293');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=1562260132108293&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--primary:#111;--accent:#e53935;--bg:#fff;--gray:#f5f5f5;--border:#e0e0e0;--text:#333;--muted:#888;--radius:8px}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;color:var(--text);background:var(--bg);line-height:1.6}
+a{color:var(--accent);text-decoration:none}
+
+/* Top bar */
+.topbar{background:var(--primary);color:#fff;text-align:center;padding:8px;font-size:13px;letter-spacing:.5px}
+.topbar span{color:var(--accent);font-weight:700}
+
+/* Header */
+header{display:flex;align-items:center;justify-content:space-between;padding:12px 20px;border-bottom:1px solid var(--border);position:sticky;top:0;background:#fff;z-index:100}
+.logo{font-size:20px;font-weight:800;letter-spacing:-1px}
+.header-icons{display:flex;gap:16px;font-size:20px}
+.header-back{background:none;border:none;font-size:22px;cursor:pointer;display:none}
+
+/* ============ CATALOG PAGE ============ */
+.catalog-section{max-width:1080px;margin:0 auto;padding:20px}
+.catalog-title{font-size:24px;font-weight:700;margin-bottom:6px}
+.catalog-sub{font-size:14px;color:var(--muted);margin-bottom:24px}
+.catalog-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px}
+.catalog-card{border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;cursor:pointer;transition:box-shadow .2s}
+.catalog-card:hover{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.catalog-card-img{width:100%;aspect-ratio:1;object-fit:cover;background:var(--gray)}
+.catalog-card-body{padding:14px}
+.catalog-card-badge{display:inline-block;background:var(--accent);color:#fff;font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;text-transform:uppercase;margin-bottom:6px}
+.catalog-card-name{font-size:15px;font-weight:600;margin-bottom:6px;line-height:1.3}
+.catalog-card-price{display:flex;align-items:baseline;gap:8px}
+.catalog-card-now{font-size:20px;font-weight:800;color:var(--accent)}
+.catalog-card-was{font-size:14px;color:var(--muted);text-decoration:line-through}
+.catalog-card-save{font-size:11px;color:#e65100;font-weight:600}
+.catalog-card-rating{font-size:12px;color:var(--muted);margin-top:6px}
+.catalog-card-rating .stars{color:#f5a623}
+
+/* ============ PRODUCT DETAIL PAGE ============ */
+.product-section{max-width:960px;margin:0 auto;padding:20px;display:none}
+.product-grid{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+@media(max-width:768px){.product-grid{grid-template-columns:1fr;gap:20px}}
+
+/* Gallery */
+.gallery{position:relative}
+.main-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:var(--radius);background:var(--gray)}
+.thumb-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
+.thumb{width:64px;height:64px;border-radius:6px;object-fit:cover;border:2px solid transparent;cursor:pointer;background:var(--gray)}
+.thumb.active{border-color:var(--primary)}
+
+/* Info */
+.product-info{display:flex;flex-direction:column;gap:12px}
+.badge{display:inline-block;background:var(--accent);color:#fff;font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.product-title{font-size:26px;font-weight:700;line-height:1.3}
+.rating{display:flex;align-items:center;gap:6px;font-size:14px;color:var(--muted)}
+.stars{color:#f5a623;font-size:16px}
+.price-box{display:flex;align-items:baseline;gap:12px}
+.price-now{font-size:32px;font-weight:800;color:var(--accent)}
+.price-was{font-size:18px;color:var(--muted);text-decoration:line-through}
+.price-save{background:#fff3e0;color:#e65100;font-size:13px;font-weight:600;padding:4px 10px;border-radius:4px}
+.features{list-style:none;display:flex;flex-direction:column;gap:8px}
+.features li{font-size:14px;padding-left:24px;position:relative}
+.features li::before{content:"\2713";position:absolute;left:0;color:#4caf50;font-weight:700}
+.desc-text{font-size:14px;color:#555;line-height:1.6}
+.divider{border:none;border-top:1px solid var(--border);margin:4px 0}
+
+/* Countdown */
+.countdown-bar{background:#fff8e1;border:1px solid #ffe082;border-radius:var(--radius);padding:12px 16px;display:flex;align-items:center;gap:10px;font-size:14px}
+.countdown-bar .icon{font-size:20px}
+.countdown-bar .timer{font-weight:700;color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* Quantity */
+.qty-row{display:flex;align-items:center;gap:12px}
+.qty-label{font-size:14px;font-weight:600}
+.qty-ctrl{display:flex;align-items:center;border:1px solid var(--border);border-radius:var(--radius);overflow:hidden}
+.qty-ctrl button{width:36px;height:36px;border:none;background:var(--gray);font-size:18px;cursor:pointer}
+.qty-ctrl button:hover{background:#e0e0e0}
+.qty-ctrl input{width:48px;height:36px;border:none;text-align:center;font-size:16px;font-weight:600}
+.stock{font-size:13px;color:var(--accent);font-weight:500}
+
+/* Buttons */
+.btn-primary{width:100%;padding:16px;border:none;border-radius:var(--radius);font-size:17px;font-weight:700;cursor:pointer;transition:all .2s}
+.btn-buy{background:var(--accent);color:#fff}
+.btn-buy:hover{background:#c62828}
+.btn-buy:disabled{background:#ccc;cursor:not-allowed}
+.btn-group{display:flex;flex-direction:column;gap:10px}
+
+/* Trust */
+.trust-row{display:flex;gap:16px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+
+/* Reviews */
+.reviews-section{max-width:960px;margin:40px auto;padding:0 20px;display:none}
+.reviews-header{font-size:20px;font-weight:700;margin-bottom:20px}
+.review-card{border:1px solid var(--border);border-radius:var(--radius);padding:16px;margin-bottom:12px}
+.review-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
+.review-name{font-weight:600;font-size:14px}
+.review-date{font-size:12px;color:var(--muted)}
+.review-stars{color:#f5a623;font-size:14px;margin-bottom:6px}
+.review-text{font-size:14px;color:#555}
+
+/* Static content pages (policies) */
+.page-section{max-width:760px;margin:0 auto;padding:32px 20px;display:none}
+.page-section h1{font-size:26px;font-weight:700;margin-bottom:8px}
+.page-section .updated{font-size:13px;color:var(--muted);margin-bottom:24px}
+.page-section h2{font-size:17px;font-weight:700;margin:24px 0 8px}
+.page-section p,.page-section li{font-size:14px;color:#555;line-height:1.7}
+.page-section ul{padding-left:20px;margin:8px 0}
+
+/* Checkout Modal */
+.modal-overlay{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:rgba(0,0,0,.5);z-index:200;justify-content:center;align-items:flex-end}
+.modal-overlay.active{display:flex}
+@media(min-width:769px){.modal-overlay.active{align-items:center}}
+.modal{background:#fff;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;border-radius:16px 16px 0 0;padding:24px;animation:slideUp .3s ease}
+@media(min-width:769px){.modal{border-radius:16px}}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-size:20px;font-weight:700;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{background:none;border:none;font-size:24px;cursor:pointer;color:var(--muted)}
+.form-group{margin-bottom:14px}
+.form-group label{display:block;font-size:13px;font-weight:600;margin-bottom:5px;color:#555}
+.form-group input,.form-group select{width:100%;padding:12px;border:1px solid var(--border);border-radius:var(--radius);font-size:15px;transition:border .2s}
+.form-group input:focus,.form-group select:focus{outline:none;border-color:var(--primary)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.order-summary{background:var(--gray);border-radius:var(--radius);padding:16px;margin:16px 0}
+.order-line{display:flex;justify-content:space-between;font-size:14px;margin-bottom:8px}
+.order-line.total{font-weight:700;font-size:16px;border-top:1px solid var(--border);padding-top:8px;margin-top:8px}
+.order-line.free{color:#4caf50;font-weight:600}
+.btn-checkout{background:var(--accent);color:#fff;width:100%;padding:16px;border:none;border-radius:var(--radius);font-size:17px;font-weight:700;cursor:pointer}
+.btn-checkout:hover{background:#c62828}
+.btn-checkout:disabled{background:#ccc;cursor:not-allowed}
+.secure-note{text-align:center;font-size:12px;color:var(--muted);margin-top:12px}
+
+/* Success */
+.success-content{text-align:center;padding:40px 20px}
+.success-icon{font-size:64px;margin-bottom:16px}
+.success-title{font-size:22px;font-weight:700;margin-bottom:8px}
+.success-sub{font-size:14px;color:var(--muted);margin-bottom:20px}
+.order-id{background:var(--gray);padding:12px;border-radius:var(--radius);font-family:monospace;font-size:16px;font-weight:600;margin-bottom:20px;display:inline-block}
+
+/* Footer */
+footer{background:var(--gray);padding:30px 20px;margin-top:40px;text-align:center;font-size:13px;color:var(--muted)}
+footer .links{display:flex;justify-content:center;gap:20px;margin-bottom:12px;flex-wrap:wrap}
+footer .links a{color:var(--muted);cursor:pointer}
+footer .biz{font-size:12px;color:var(--muted);margin-top:8px;line-height:1.5}
+
+/* Loading overlay (navigation transition) */
+.loading-overlay{display:none;position:fixed;inset:0;background:rgba(255,255,255,.72);z-index:300;justify-content:center;align-items:center;backdrop-filter:blur(2px)}
+.loading-overlay.active{display:flex}
+.spinner{width:44px;height:44px;border:4px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ===== Trust & credibility ===== */
+/* Payment method badges */
+.pay-badges{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pay-badges .lbl{font-size:12px;color:var(--muted);margin-right:2px}
+.pay-badge{height:30px;min-width:44px;padding:4px 8px;border:1px solid var(--border);border-radius:6px;background:#fff;display:inline-flex;align-items:center;justify-content:center;font:700 12px Arial,Helvetica,sans-serif}
+.pb-visa{color:#1a1f71;font-style:italic;font-weight:800;letter-spacing:.5px}
+.pb-apple{color:#111}
+.pb-gpay{color:#5f6368}
+/* Secure checkout bar */
+.secure-bar{display:flex;align-items:center;gap:8px;background:#f1f8f1;border:1px solid #cfe8cf;color:#2e7d32;font-size:13px;font-weight:600;padding:10px 12px;border-radius:var(--radius);margin-bottom:16px}
+/* Trust badge cards */
+.trust-badges{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:4px}
+@media(min-width:520px){.trust-badges{grid-template-columns:repeat(4,1fr)}}
+.trust-badge{display:flex;flex-direction:column;align-items:center;text-align:center;gap:4px;border:1px solid var(--border);border-radius:var(--radius);padding:12px 8px}
+.trust-badge .t-ico{font-size:20px;line-height:1}
+.trust-badge .t-title{font-weight:700;color:var(--text);font-size:12.5px}
+.trust-badge .t-sub{font-size:11px;color:var(--muted)}
+/* Brand promise strip (catalog) */
+.promise{max-width:1080px;margin:0 auto 8px;padding:0 20px}
+.promise-inner{display:flex;flex-wrap:wrap;gap:14px 28px;border:1px solid var(--border);border-radius:12px;padding:16px 20px;background:var(--gray)}
+.promise-item{display:flex;align-items:center;gap:10px;font-size:13px;color:#555}
+.promise-item .p-ico{font-size:20px}
+.promise-item b{color:var(--text);display:block;font-size:13px}
+.promise-item small{color:var(--muted)}
+/* Footer columns */
+.foot-cols{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:1fr;gap:24px;text-align:left}
+@media(min-width:700px){.foot-cols{grid-template-columns:2fr 1fr 1fr}}
+.foot-col h4{font-size:12px;font-weight:700;color:var(--text);margin-bottom:12px;text-transform:uppercase;letter-spacing:.6px}
+.foot-col a{display:block;color:var(--muted);cursor:pointer;margin-bottom:8px;font-size:13px}
+.foot-brand{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.foot-brand img{width:28px;height:28px;border-radius:6px}
+.foot-brand span{font-size:18px;font-weight:800;color:var(--text)}
+.foot-about{font-size:13px;color:var(--muted);line-height:1.6;margin-bottom:14px;max-width:340px}
+.foot-bottom{max-width:1080px;margin:20px auto 0;border-top:1px solid var(--border);padding-top:16px;font-size:12px;color:var(--muted);line-height:1.6;text-align:left}
+</style>
+</head>
+<body>
+
+<!-- Top Bar -->
+<div class="topbar">Free Shipping Worldwide &middot; 30-Day Returns &middot; <span>Secure Checkout</span></div>
+
+<!-- Header -->
+<header>
+  <button class="header-back" id="backBtn" onclick="goBack()">&larr;</button>
+  <div class="logo" id="siteLogo" style="cursor:pointer;display:flex;align-items:center;gap:8px" onclick="goHome()">
+    <img src="assets/favicon.svg" alt="SnapMart logo" style="width:26px;height:26px;border-radius:6px">
+    <span>SnapMart</span>
+  </div>
+  <div class="header-icons">
+    <span style="cursor:pointer;font-size:14px;color:var(--muted)" id="cartCount"></span>
+  </div>
+</header>
+
+<!-- ========== CATALOG VIEW ========== -->
+<section class="catalog-section" id="catalogView">
+  <h1 class="catalog-title">Trending Now</h1>
+  <p class="catalog-sub">Hot picks at great prices.</p>
+  <div class="promise-inner" style="margin-bottom:24px">
+    <div class="promise-item"><span class="p-ico">&#128666;</span><span><b>Free Worldwide Shipping</b><small>On every order</small></span></div>
+    <div class="promise-item"><span class="p-ico">&#128260;</span><span><b>30-Day Easy Returns</b><small>Shop with confidence</small></span></div>
+    <div class="promise-item"><span class="p-ico">&#128274;</span><span><b>Secure Checkout</b><small>Encrypted payment</small></span></div>
+    <div class="promise-item"><span class="p-ico">&#128231;</span><span><b>Responsive Support</b><small>Replies within 1 day</small></span></div>
+  </div>
+  <div class="catalog-grid" id="catalogGrid"></div>
+</section>
+
+<!-- ========== PRODUCT DETAIL VIEW ========== -->
+<section class="product-section" id="productView">
+  <div class="product-grid">
+    <div class="gallery">
+      <img class="main-img" id="mainImg" src="" alt="Product">
+      <div class="thumb-row" id="thumbRow"></div>
+    </div>
+    <div class="product-info">
+      <div><span class="badge" id="pdpBadge"></span></div>
+      <h1 class="product-title" id="pdpTitle"></h1>
+      <div class="rating">
+        <span class="stars" id="pdpStars"></span>
+        <span id="pdpRatingText"></span>
+      </div>
+      <div class="price-box">
+        <span class="price-now" id="pdpPrice"></span>
+        <span class="price-was" id="pdpOriginal"></span>
+        <span class="price-save" id="pdpSave"></span>
+      </div>
+      <p class="desc-text" id="pdpDesc"></p>
+      <ul class="features" id="pdpFeatures"></ul>
+      <hr class="divider">
+      <div class="countdown-bar">
+        <span class="icon">&#9200;</span>
+        <span id="saleMsg">Sale ends in <span class="timer" id="countdown">--:--:--</span></span>
+        <span style="margin-left:auto;font-weight:600;color:#e65100" id="pdpStock"></span>
+      </div>
+      <div class="qty-row">
+        <span class="qty-label">Quantity</span>
+        <div class="qty-ctrl">
+          <button onclick="changeQty(-1)">&minus;</button>
+          <input type="text" id="qtyInput" value="1" readonly>
+          <button onclick="changeQty(1)">+</button>
+        </div>
+        <span class="stock">&#10003; In Stock</span>
+      </div>
+      <div class="btn-group">
+        <button class="btn-primary btn-buy" id="buyBtn" onclick="openCheckout()">Buy Now</button>
+      </div>
+      <div class="trust-badges">
+        <div class="trust-badge"><span class="t-ico">&#128274;</span><span class="t-title">Secure Payment</span><span class="t-sub">SSL encrypted</span></div>
+        <div class="trust-badge"><span class="t-ico">&#128666;</span><span class="t-title">Free Shipping</span><span class="t-sub">Worldwide</span></div>
+        <div class="trust-badge"><span class="t-ico">&#128260;</span><span class="t-title">30-Day Returns</span><span class="t-sub">Money-back</span></div>
+        <div class="trust-badge"><span class="t-ico">&#9989;</span><span class="t-title">1-Year Warranty</span><span class="t-sub">Quality assured</span></div>
+      </div>
+      <div class="pay-badges" style="margin-top:12px">
+        <span class="lbl">We accept</span>
+        <span class="pay-badge pb-visa">VISA</span>
+        <span class="pay-badge" title="Mastercard"><svg viewBox="0 0 40 24" width="32" height="19"><circle cx="16" cy="12" r="9" fill="#EB001B"/><circle cx="24" cy="12" r="9" fill="#F79E1B"/><path d="M20 5.4a9 9 0 0 1 0 13.2 9 9 0 0 1 0-13.2z" fill="#FF5F00"/></svg></span>
+        <span class="pay-badge pb-apple">Apple&nbsp;Pay</span>
+        <span class="pay-badge pb-gpay"><span style="color:#4285F4">G</span>&nbsp;Pay</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Reviews -->
+<section class="reviews-section" id="reviewsSection">
+  <h2 class="reviews-header" id="reviewsHeader"></h2>
+  <div id="reviewsList"></div>
+</section>
+
+<!-- ========== POLICY PAGES ========== -->
+<section class="page-section" id="page-shipping">
+  <h1>Shipping Policy</h1>
+  <p class="updated">Last updated: 2026-08-15</p>
+  <p>Orders are processed within 1–3 business days. Estimated delivery time is up to 7 business days depending on destination. Tracking information is emailed once your order ships.</p>
+  <h2>Shipping Costs</h2>
+  <p>Shipping is free on all orders during this promotion — the shipping cost is covered by SnapMart and shown as FREE at checkout.</p>
+  <h2>Delays</h2>
+  <p>Delivery times are estimates and may be affected by customs, weather, or carrier delays. Contact us if your order has not arrived within the estimated window.</p>
+</section>
+
+<section class="page-section" id="page-returns">
+  <h1>Return &amp; Refund Policy</h1>
+  <p class="updated">Last updated: 2026-08-15</p>
+  <p>You may request a return within 30 days of delivery for unused items in their original packaging.</p>
+  <h2>How to Return</h2>
+  <ul>
+    <li>Email support@snapmartco.com with your order number and reason for return.</li>
+    <li>We will provide return instructions. For change-of-mind returns, return shipping is paid by the customer; for damaged or incorrect items, SnapMart covers return shipping.</li>
+    <li>Once received and inspected, refunds are issued to the original payment method within 5–10 business days.</li>
+  </ul>
+  <h2>Damaged or Incorrect Items</h2>
+  <p>If your item arrives damaged or incorrect, contact us within 7 days with photos and we will arrange a replacement or full refund at no cost to you.</p>
+</section>
+
+<section class="page-section" id="page-privacy">
+  <h1>Privacy Policy</h1>
+  <p class="updated">Last updated: 2026-08-15</p>
+  <p>SnapMart, operated by Snapmartco LLC, collects the information you provide at checkout — name, email, and shipping address — solely to process and deliver your order.</p>
+  <h2>How We Use Your Data</h2>
+  <ul>
+    <li>To process payments and fulfil orders.</li>
+    <li>To send order confirmations and shipping updates.</li>
+    <li>To respond to support requests.</li>
+  </ul>
+  <h2>Payment Processing</h2>
+  <p>Payments are handled by our third-party payment processor. We do not store full card details on our servers.</p>
+  <h2>Your Rights</h2>
+  <p>You may request access to, correction of, or deletion of your personal data by emailing support@snapmartco.com.</p>
+</section>
+
+<section class="page-section" id="page-terms">
+  <h1>Terms of Service</h1>
+  <p class="updated">Last updated: 2026-08-15</p>
+  <p>By placing an order on SnapMart you agree to these terms. Prices and availability are subject to change without notice. Product images are for illustration.</p>
+  <h2>Orders</h2>
+  <p>We reserve the right to refuse or cancel any order. If we cancel an order after payment, you will receive a full refund.</p>
+  <h2>Contact</h2>
+  <p>Questions about these terms: support@snapmartco.com.</p>
+</section>
+
+<section class="page-section" id="page-contact">
+  <h1>Contact Us</h1>
+  <p class="updated">We usually reply within 1 business day.</p>
+  <h2>Customer Support</h2>
+  <p>Email: support@snapmartco.com<br>Business name: Snapmartco LLC<br>Address: 1234 Market Street, Suite 500, Wilmington, DE 19801, USA</p>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="foot-cols">
+    <div class="foot-col">
+      <div class="foot-brand">
+        <img src="assets/favicon.svg" alt="SnapMart logo">
+        <span>SnapMart</span>
+      </div>
+      <p class="foot-about">SnapMart brings you everyday essentials and trending gadgets at honest prices, with fast worldwide shipping and friendly support. Shop with confidence — every order is backed by our 30-day return promise.</p>
+      <div class="pay-badges">
+        <span class="pay-badge pb-visa">VISA</span>
+        <span class="pay-badge" title="Mastercard"><svg viewBox="0 0 40 24" width="32" height="19"><circle cx="16" cy="12" r="9" fill="#EB001B"/><circle cx="24" cy="12" r="9" fill="#F79E1B"/><path d="M20 5.4a9 9 0 0 1 0 13.2 9 9 0 0 1 0-13.2z" fill="#FF5F00"/></svg></span>
+        <span class="pay-badge pb-apple">Apple&nbsp;Pay</span>
+        <span class="pay-badge pb-gpay"><span style="color:#4285F4">G</span>&nbsp;Pay</span>
+      </div>
+    </div>
+    <div class="foot-col">
+      <h4>Support</h4>
+      <a onclick="showPage('shipping')">Shipping Policy</a>
+      <a onclick="showPage('returns')">Returns &amp; Refunds</a>
+      <a onclick="showPage('contact')">Contact Us</a>
+    </div>
+    <div class="foot-col">
+      <h4>Company</h4>
+      <a onclick="showPage('privacy')">Privacy Policy</a>
+      <a onclick="showPage('terms')">Terms of Service</a>
+    </div>
+  </div>
+  <div class="foot-bottom">
+    <p>&copy; 2026 Snapmartco LLC. All rights reserved.</p>
+    <p>Snapmartco LLC &middot; 1234 Market Street, Suite 500, Wilmington, DE 19801, USA &middot; support@snapmartco.com</p>
+  </div>
+</footer>
+
+<!-- Loading overlay -->
+<div class="loading-overlay" id="loadingOverlay"><div class="spinner"></div></div>
+
+<!-- Checkout Modal -->
+<div class="modal-overlay" id="checkoutModal">
+  <div class="modal">
+    <div id="step-checkout">
+      <div class="modal-title">
+        <span>&#128722; Checkout</span>
+        <button class="modal-close" onclick="closeCheckout()">&times;</button>
+      </div>
+      <div class="secure-bar">&#128274; Secure SSL checkout — your payment details are encrypted.</div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="email" placeholder="your@email.com" required>
+      </div>
+      <div class="form-group">
+        <label>Full Name</label>
+        <input type="text" id="fullName" placeholder="John Smith" required>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Country</label>
+          <select id="country">
+            <option value="US">United States</option>
+            <option value="CA">Canada</option>
+            <option value="GB">United Kingdom</option>
+            <option value="AU">Australia</option>
+            <option value="DE">Germany</option>
+            <option value="FR">France</option>
+            <option value="JP">Japan</option>
+            <option value="KR">South Korea</option>
+            <option value="SG">Singapore</option>
+            <option value="MY">Malaysia</option>
+            <option value="PH">Philippines</option>
+            <option value="TH">Thailand</option>
+            <option value="VN">Vietnam</option>
+            <option value="ID">Indonesia</option>
+            <option value="BR">Brazil</option>
+            <option value="MX">Mexico</option>
+            <option value="OTHER">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>City</label>
+          <input type="text" id="city" placeholder="New York" required>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Address</label>
+        <input type="text" id="address" placeholder="123 Main Street" required>
+      </div>
+      <div class="order-summary">
+        <div class="order-line">
+          <span id="summaryName">Product</span>
+          <span id="summarySubtotal">$0</span>
+        </div>
+        <div class="order-line free">
+          <span>Shipping</span>
+          <span>FREE</span>
+        </div>
+        <div class="order-line total">
+          <span>Total</span>
+          <span id="summaryTotal">$0</span>
+        </div>
+      </div>
+      <button class="btn-checkout" id="payBtn" onclick="placeOrder()">Pay $<span id="btnTotal">0</span></button>
+      <div class="pay-badges" style="justify-content:center;margin-top:12px">
+        <span class="pay-badge pb-visa">VISA</span>
+        <span class="pay-badge" title="Mastercard"><svg viewBox="0 0 40 24" width="32" height="19"><circle cx="16" cy="12" r="9" fill="#EB001B"/><circle cx="24" cy="12" r="9" fill="#F79E1B"/><path d="M20 5.4a9 9 0 0 1 0 13.2 9 9 0 0 1 0-13.2z" fill="#FF5F00"/></svg></span>
+        <span class="pay-badge pb-apple">Apple&nbsp;Pay</span>
+        <span class="pay-badge pb-gpay"><span style="color:#4285F4">G</span>&nbsp;Pay</span>
+      </div>
+      <p class="secure-note">&#128274; Secure checkout. Your data is encrypted.</p>
+    </div>
+    <div id="step-success" style="display:none">
+      <div class="modal-title">
+        <span></span>
+        <button class="modal-close" onclick="closeCheckout()">&times;</button>
+      </div>
+      <div class="success-content">
+        <div class="success-icon">&#9989;</div>
+        <h2 class="success-title">Order Confirmed!</h2>
+        <p class="success-sub">Confirmation sent to <strong id="confirmEmail"></strong></p>
+        <div class="order-id" id="orderId"></div>
+        <p style="font-size:13px;color:var(--muted);margin-top:12px">Estimated delivery: see Shipping Policy</p>
+        <button class="btn-primary btn-buy" style="margin-top:20px" onclick="continueShopping()">Continue Shopping</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ================================================================
+// SITE CONFIG
+// ================================================================
+// Backend API base. Points to the dev gateway for now; the page can call it
+// directly from any page origin (incl. www.snapmartco.com) as long as the
+// gateway's CORS allows that origin. It's a separate subdomain = cross-origin,
+// so the gateway must send the CORS headers + handle the OPTIONS preflight.
+// When a production API + Waffo live keys are ready, switch this one value.
+const API_BASE = 'https://api-prod.snapmartco.com';
+
+const SITE = {
+  name: 'SnapMart',
+  brand: 'snapmartco',
+  // createLandingOrder JSON gateway endpoint (protoId 5042 -> Waffo payment).
+  orderApiUrl: API_BASE + '/json/userApi/createLandingOrder',
+  orderProtoId: 5042,
+  currency: 'USD',
+  // Real sale deadline. Timer counts down to this instant; when it passes,
+  // the countdown shows "This sale has ended" and Buy is disabled.
+  // Set this to your actual campaign end time (local time), then stop your ads at the same time.
+  saleEndsAt: '2026-09-01T23:59:59',
+};
+
+// ================================================================
+// PRODUCT CATALOG
+// Two generic, no-logo SKUs only (earbuds + smart watch).
+// IMPORTANT (compliance): every spec claim below (ANC, battery hours,
+// water rating, Bluetooth version, GPS, etc.) MUST match your actual
+// product. Adjust any figure that isn't true — false spec claims are a
+// dropshipping ad-rejection / consumer-protection issue.
+// The Yeezy-350-style sneaker was intentionally excluded: its silhouette
+// is protected trade dress, so it is not ad-safe regardless of copy.
+// ================================================================
+const PRODUCTS = {
+
+  // ═══════════════ EARBUDS ═══════════════
+  'wireless-earbuds': {
+    name: 'SnapPods Wireless Earbuds',
+    payName: 'coin_1',
+    price: 3.99,
+    originalPrice: 34.90,
+    badge: 'Best Seller',
+    description: 'Everyday wireless earbuds in a glossy black finish with a pocket-sized charging case. Comfortable stem design for calls, music, and workouts. Simple touch controls and quick Bluetooth pairing.',
+    images: [
+      'assets/earbuds/earbuds-1.jpg',
+      'assets/earbuds/earbuds-2.jpg',
+    ],
+    features: [
+      'Active noise reduction for quieter listening',   // verify: does your unit have real ANC?
+      'Long playtime with the included charging case',  // verify exact hours before publishing
+      'Sweat & splash resistant for workouts',          // verify IP rating before claiming IPX5
+      'Bluetooth quick pairing',                        // verify exact BT version
+      'Touch controls for play, pause & calls',
+    ],
+    stock: 23,
+    rating: 4.6,
+    reviewCount: 64,
+    reviews: [
+      { name: 'Sarah M.', date: '3 days ago', stars: 5, text: 'Really happy with these for the price. Comfortable to wear and the battery gets me through the day. Pairing was quick.' },
+      { name: 'Lisa W.', date: '2 weeks ago', stars: 4, text: 'Good earbuds for the money. The touch controls take a little getting used to, but sound and battery are solid.' },
+    ],
+  },
+
+  // ═══════════════ SMART WATCH ═══════════════
+  'smart-watch': {
+    name: 'SnapFit Smart Watch',
+    payName: 'coin_2',
+    price: 4.99,
+    originalPrice: 29.90,
+    badge: 'Hot Deal',
+    description: 'Lightweight fitness smart watch with a bright rectangular touchscreen and a soft silicone strap. Tracks steps, heart rate and sleep, shows phone notifications, and lasts for days on a charge.',
+    images: [
+      'assets/watches/watch-1.jpg',
+      'assets/watches/watch-2.jpg',
+      'assets/watches/watch-3.jpg',
+      'assets/watches/watch-5.jpg',
+    ],
+    features: [
+      '1.8" rectangular color touchscreen',        // verify exact size; only claim "always-on" if true
+      'Heart rate & sleep tracking',               // verify SpO2 sensor before adding "blood oxygen"
+      'Step, distance & calorie counter',          // verify sport-mode count before claiming "100+"
+      'Bluetooth notifications for calls & apps',   // only claim "Bluetooth calling" if it has mic+speaker
+      'Splash & sweat resistant for daily wear',    // verify exact IP rating before printing "IP68"
+      'Multi-day battery with magnetic charging',   // verify exact days before claiming "7-day"
+      'Works with iOS & Android',                   // verify companion-app compatibility
+    ],
+    stock: 15,
+    rating: 4.5,
+    reviewCount: 57,
+    reviews: [
+      { name: 'Mike T.', date: '5 days ago', stars: 5, text: 'Great value watch. The screen is bright and the battery lasts several days. Step and heart rate tracking have been reliable for me.' },
+      { name: 'David L.', date: '2 weeks ago', stars: 4, text: 'Good value. Notifications come through fine and it is comfortable to wear. The app could be more polished but the watch itself is solid.' },
+    ],
+  },
+
+  // ═══════════════ KNIT SNEAKERS ═══════════════
+  'knit-sneakers': {
+    name: 'SnapRun Knit Sneakers',
+    payName: 'coin_3',
+    price: 5.99,
+    originalPrice: 49.90,
+    badge: 'New Arrival',
+    description: 'Lightweight knit running sneakers with a seamless one-piece upper and a ridged rubber outsole. Breathable woven fabric hugs your foot while the thick cushioned midsole absorbs impact. Slip-on fit with lace closure — perfect for daily wear, gym sessions, or casual outings. Available in multiple colorways.',
+    images: [
+      'assets/sneakers/sneaker-1.jpg',
+      'assets/sneakers/sneaker-2.jpg',
+      'assets/sneakers/sneaker-3.jpg',
+      'assets/sneakers/sneaker-4.jpg',
+      'assets/sneakers/sneaker-5.jpg',
+    ],
+    features: [
+      'Breathable knit upper for all-day comfort',
+      'Cushioned ridged midsole for impact absorption',
+      'Lightweight design — feels barely there',
+      'Slip-on style with secure lace closure',
+      'Durable rubber outsole with grip pattern',
+      'Unisex fit — works for men & women',
+    ],
+    stock: 18,
+    rating: 4.7,
+    reviewCount: 42,
+    reviews: [
+      { name: 'James R.', date: '4 days ago', stars: 5, text: 'Super comfortable right out of the box. The knit upper breathes really well and the cushioning is solid. Wore them all day with zero issues.' },
+      { name: 'Emily K.', date: '1 week ago', stars: 4, text: 'Love the look and feel. Very lightweight and the fit is snug but not tight. Only wish they came in more sizes.' },
+    ],
+  },
+};
+
+
+// ================================================================
+// APP STATE
+// ================================================================
+let currentProduct = null;
+let qty = 1;
+
+// Sale is active until the configured deadline.
+function saleActive() {
+  return Date.now() < new Date(SITE.saleEndsAt).getTime();
+}
+
+// ================================================================
+// ROUTING — ?pid=xxx shows product, otherwise catalog
+// ================================================================
+function route() {
+  const params = new URLSearchParams(window.location.search);
+  const pid = params.get('pid');
+
+  // Handle payment redirect back
+  if (params.get('paid') === '1') {
+    document.getElementById('step-checkout').style.display = 'none';
+    document.getElementById('step-success').style.display = 'block';
+    document.getElementById('orderId').textContent = 'Confirmed';
+    document.getElementById('confirmEmail').textContent = '';
+    document.getElementById('checkoutModal').classList.add('active');
+
+    // Meta Pixel: fire Purchase once on successful payment return.
+    // eventID = order_id so the server-side Conversions API can dedupe.
+    if (window.fbq) {
+      const orderId = params.get('order_id') || '';
+      const opts = orderId ? { eventID: orderId } : undefined;
+      fbq('track', 'Purchase', {
+        value: parseFloat(params.get('amount') || '0'),
+        currency: params.get('cur') || SITE.currency,
+        content_ids: params.get('item') ? [params.get('item')] : (pid ? [pid] : []),
+        content_type: 'product',
+      }, opts);
+    }
+  }
+
+  if (pid && PRODUCTS[pid]) {
+    showProduct(pid);
+  } else {
+    showCatalog();
+  }
+}
+
+function hideAllViews() {
+  document.getElementById('catalogView').style.display = 'none';
+  document.getElementById('productView').style.display = 'none';
+  document.getElementById('reviewsSection').style.display = 'none';
+  document.querySelectorAll('.page-section').forEach(s => s.style.display = 'none');
+}
+
+// ================================================================
+// CATALOG VIEW
+// ================================================================
+function showCatalog() {
+  hideAllViews();
+  document.getElementById('catalogView').style.display = 'block';
+  document.getElementById('backBtn').style.display = 'none';
+  document.title = SITE.name + ' — Everyday Deals, Great Prices';
+
+  const grid = document.getElementById('catalogGrid');
+  grid.innerHTML = '';
+
+  Object.entries(PRODUCTS).forEach(([pid, p]) => {
+    const discount = Math.round((1 - p.price / p.originalPrice) * 100);
+    const starsHtml = '\u2605'.repeat(Math.floor(p.rating)) + (p.rating % 1 >= 0.5 ? '\u2605' : '');
+    const card = document.createElement('div');
+    card.className = 'catalog-card';
+    card.onclick = () => navigateTo(pid);
+    card.innerHTML = `
+      <img class="catalog-card-img" src="${p.images[0]}" alt="${p.name}" loading="lazy">
+      <div class="catalog-card-body">
+        <span class="catalog-card-badge">${p.badge}</span>
+        <div class="catalog-card-name">${p.name}</div>
+        <div class="catalog-card-price">
+          <span class="catalog-card-now">$${p.price.toFixed(2)}</span>
+          <span class="catalog-card-was">$${p.originalPrice.toFixed(2)}</span>
+          <span class="catalog-card-save">-${discount}%</span>
+        </div>
+        <div class="catalog-card-rating"><span class="stars">${starsHtml}</span> ${p.rating} (${p.reviewCount.toLocaleString()})</div>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+// ================================================================
+// PRODUCT DETAIL VIEW
+// ================================================================
+function showProduct(pid) {
+  const p = PRODUCTS[pid];
+  if (!p) return showCatalog();
+
+  currentProduct = { id: pid, ...p };
+  qty = 1;
+
+  hideAllViews();
+  document.getElementById('productView').style.display = 'block';
+  document.getElementById('reviewsSection').style.display = 'block';
+  document.getElementById('backBtn').style.display = 'inline-block';
+  document.title = p.name + ' — ' + SITE.name;
+
+  // Images
+  document.getElementById('mainImg').src = p.images[0];
+  const thumbRow = document.getElementById('thumbRow');
+  thumbRow.innerHTML = '';
+  p.images.forEach((src, i) => {
+    const img = document.createElement('img');
+    img.className = 'thumb' + (i === 0 ? ' active' : '');
+    img.src = src;
+    img.alt = 'thumb' + (i + 1);
+    img.onclick = function () { changeImg(this, src); };
+    thumbRow.appendChild(img);
+  });
+
+  // Info
+  document.getElementById('pdpBadge').textContent = p.badge;
+  document.getElementById('pdpTitle').textContent = p.name;
+  const discount = Math.round((1 - p.price / p.originalPrice) * 100);
+  document.getElementById('pdpPrice').textContent = '$' + p.price.toFixed(2);
+  document.getElementById('pdpOriginal').textContent = '$' + p.originalPrice.toFixed(2);
+  document.getElementById('pdpSave').textContent = 'SAVE ' + discount + '%';
+  document.getElementById('pdpDesc').textContent = p.description;
+  document.getElementById('pdpStock').textContent = 'Only ' + p.stock + ' left';
+
+  // Stars
+  const fullStars = Math.floor(p.rating);
+  const halfStar = p.rating % 1 >= 0.5 ? 1 : 0;
+  document.getElementById('pdpStars').innerHTML = '\u2605'.repeat(fullStars) + (halfStar ? '\u2605' : '\u2606');
+  document.getElementById('pdpRatingText').textContent = p.rating + ' (' + p.reviewCount.toLocaleString() + ' reviews)';
+
+  // Features
+  const featuresList = document.getElementById('pdpFeatures');
+  featuresList.innerHTML = '';
+  p.features.forEach(f => {
+    const li = document.createElement('li');
+    li.textContent = f;
+    featuresList.appendChild(li);
+  });
+
+  // Reviews
+  document.getElementById('reviewsHeader').textContent = 'Customer Reviews (' + p.reviewCount.toLocaleString() + ')';
+  const reviewsList = document.getElementById('reviewsList');
+  reviewsList.innerHTML = '';
+  p.reviews.forEach(r => {
+    const card = document.createElement('div');
+    card.className = 'review-card';
+    card.innerHTML = `
+      <div class="review-top">
+        <span class="review-name">${r.name}</span>
+        <span class="review-date">${r.date}</span>
+      </div>
+      <div class="review-stars">${'\u2605'.repeat(r.stars)}${'\u2606'.repeat(5 - r.stars)}</div>
+      <p class="review-text">${r.text}</p>
+    `;
+    reviewsList.appendChild(card);
+  });
+
+  // Qty & price
+  document.getElementById('qtyInput').value = 1;
+  updatePrice();
+  window.scrollTo(0, 0);
+}
+
+// ================================================================
+// STATIC POLICY PAGES
+// ================================================================
+function showPage(key) {
+  hideAllViews();
+  const el = document.getElementById('page-' + key);
+  if (el) el.style.display = 'block';
+  document.getElementById('backBtn').style.display = 'inline-block';
+  window.scrollTo(0, 0);
+}
+
+// ================================================================
+// NAVIGATION
+// ================================================================
+// Brief loading overlay so page transitions feel like a real network
+// round-trip instead of an instant local render.
+function showLoading() { document.getElementById('loadingOverlay').classList.add('active'); }
+function hideLoading() { document.getElementById('loadingOverlay').classList.remove('active'); }
+function navDelay() { return 500 + Math.random() * 400; } // 500–900ms
+
+function navigateTo(pid) {
+  const params = new URLSearchParams(window.location.search);
+  // preserve utm params
+  const utm = {};
+  ['utm_source', 'utm_campaign', 'utm_medium', 'utm_content'].forEach(k => {
+    if (params.get(k)) utm[k] = params.get(k);
+  });
+  const qs = new URLSearchParams({ pid, ...utm }).toString();
+  showLoading();
+  setTimeout(() => {
+    history.pushState({}, '', '?' + qs);
+    route();
+    window.scrollTo(0, 0);
+    hideLoading();
+  }, navDelay());
+}
+
+function goHome() {
+  const params = new URLSearchParams(window.location.search);
+  const utm = {};
+  ['utm_source', 'utm_campaign', 'utm_medium', 'utm_content'].forEach(k => {
+    if (params.get(k)) utm[k] = params.get(k);
+  });
+  const qs = Object.keys(utm).length ? '?' + new URLSearchParams(utm).toString() : window.location.pathname;
+  showLoading();
+  setTimeout(() => {
+    history.pushState({}, '', qs);
+    route();
+    window.scrollTo(0, 0);
+    hideLoading();
+  }, navDelay());
+}
+
+function goBack() { goHome(); }
+
+window.addEventListener('popstate', route);
+
+// ================================================================
+// GALLERY / QTY / MODAL
+// ================================================================
+function changeImg(thumb, src) {
+  document.getElementById('mainImg').src = src;
+  document.querySelectorAll('.thumb').forEach(t => t.classList.remove('active'));
+  thumb.classList.add('active');
+}
+
+function changeQty(d) {
+  qty = Math.max(1, Math.min(10, qty + d));
+  document.getElementById('qtyInput').value = qty;
+  updatePrice();
+}
+
+function updatePrice() {
+  if (!currentProduct) return;
+  const total = (currentProduct.price * qty).toFixed(2);
+  const buyBtn = document.getElementById('buyBtn');
+  if (saleActive()) {
+    buyBtn.disabled = false;
+    buyBtn.textContent = 'Buy Now \u2014 $' + total;
+  } else {
+    buyBtn.disabled = true;
+    buyBtn.textContent = 'Sale Ended';
+  }
+  document.getElementById('summaryName').textContent = currentProduct.name.split('\u2014')[0].trim() + ' \u00d7 ' + qty;
+  document.getElementById('summarySubtotal').textContent = '$' + total;
+  document.getElementById('summaryTotal').textContent = '$' + total;
+  document.getElementById('btnTotal').textContent = total;
+}
+
+function openCheckout() {
+  if (!saleActive()) return;
+  document.getElementById('step-checkout').style.display = 'block';
+  document.getElementById('step-success').style.display = 'none';
+  document.getElementById('checkoutModal').classList.add('active');
+  updatePrice();
+  if (window.fbq && currentProduct) {
+    fbq('track', 'InitiateCheckout', {
+      value: +(currentProduct.price * qty).toFixed(2),
+      currency: SITE.currency,
+      content_ids: [currentProduct.id],
+      content_type: 'product',
+      num_items: qty,
+    });
+  }
+}
+
+function closeCheckout() {
+  document.getElementById('checkoutModal').classList.remove('active');
+}
+
+// From the "Order Confirmed" screen: close the modal AND navigate back to the
+// shop home, dropping the paid/amount/cur query params so refreshing won't
+// re-trigger the confirmation (or re-fire the Purchase pixel event).
+function continueShopping() {
+  closeCheckout();
+  goHome();
+}
+
+// ================================================================
+// PLACE ORDER — Waffo payment
+// ================================================================
+function placeOrder() {
+  const email = document.getElementById('email').value.trim();
+  const name = document.getElementById('fullName').value.trim();
+  const address = document.getElementById('address').value.trim();
+  const city = document.getElementById('city').value.trim();
+  const country = document.getElementById('country').value;
+
+  if (!email) { document.getElementById('email').focus(); document.getElementById('email').style.borderColor = '#e53935'; return; }
+  if (!name) { document.getElementById('fullName').focus(); document.getElementById('fullName').style.borderColor = '#e53935'; return; }
+  if (!address) { document.getElementById('address').focus(); document.getElementById('address').style.borderColor = '#e53935'; return; }
+  if (!city) { document.getElementById('city').focus(); document.getElementById('city').style.borderColor = '#e53935'; return; }
+
+  const total = (currentProduct.price * qty).toFixed(2);
+  const params = new URLSearchParams(window.location.search);
+
+  // CreateLandingOrderRequest body (snake_case, matches user_api.proto protoId 5042)
+  const body = {
+    amount: total,
+    currency: SITE.currency,
+    product_name: currentProduct.payName || currentProduct.name,
+    product_id: currentProduct.payName || currentProduct.id,
+    qty: qty,
+    email: email,
+    name: name,
+    country: country,
+    city: city,
+    address: address,
+    // Return to the site ROOT (home), not the product page. paid=1 + amount
+    // still drive the on-page confirmation and the Purchase pixel event.
+    // Use `item` (not `pid`) to carry the product id for Purchase content_ids
+    // without triggering the product-detail view (which only reacts to `pid`).
+    success_redirect_url: window.location.origin + '/?paid=1&amount=' + total + '&cur=' + SITE.currency + '&item=' + encodeURIComponent(currentProduct.id),
+    fail_redirect_url: window.location.origin + '/?paid=0',
+    utm_source: params.get('utm_source') || '',
+    utm_campaign: params.get('utm_campaign') || '',
+  };
+
+  // Meta Pixel: user submitted checkout / payment info
+  if (window.fbq) {
+    fbq('track', 'AddPaymentInfo', {
+      value: +total,
+      currency: SITE.currency,
+      content_ids: [currentProduct.id],
+      content_type: 'product',
+    });
+  }
+
+  if (SITE.orderApiUrl) {
+    const btn = document.getElementById('payBtn');
+    btn.disabled = true;
+    btn.textContent = 'Redirecting...';
+
+    fetch(SITE.orderApiUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      // JSON gateway envelope: { protoId, body }
+      body: JSON.stringify({ protoId: SITE.orderProtoId, body: body })
+    })
+      .then(r => r.json())
+      .then(data => {
+        // Response envelope: { protoId: 5043, body: { code, message, orderId, paymentUrl } }
+        // NOTE: the JSON gateway serializes proto fields as camelCase (paymentUrl),
+        // not snake_case — keep a snake_case fallback just in case.
+        const resp = (data && data.body) ? data.body : {};
+        const payUrl = resp.paymentUrl || resp.payment_url;
+        if (payUrl) {
+          window.location.href = payUrl;
+        } else {
+          btn.disabled = false;
+          btn.textContent = 'Pay $' + total;
+          alert(resp.message || 'Order creation failed. Please try again.');
+        }
+      })
+      .catch(() => {
+        btn.disabled = false;
+        btn.textContent = 'Pay $' + total;
+        alert('Order error. Please try again.');
+      });
+    return;
+  }
+
+  // DEMO MODE
+  console.log('Order:', JSON.stringify(body, null, 2));
+  document.getElementById('orderId').textContent = 'ORD-' + Date.now().toString(36).toUpperCase();
+  document.getElementById('confirmEmail').textContent = email;
+  document.getElementById('step-checkout').style.display = 'none';
+  document.getElementById('step-success').style.display = 'block';
+}
+
+// ================================================================
+// COUNTDOWN TIMER — counts down to the real SITE.saleEndsAt deadline
+// ================================================================
+(function () {
+  const el = document.getElementById('countdown');
+  const msg = document.getElementById('saleMsg');
+  const pad = n => String(n).padStart(2, '0');
+  const end = new Date(SITE.saleEndsAt).getTime();
+
+  function tick() {
+    let diff = Math.floor((end - Date.now()) / 1000);
+    if (diff <= 0) {
+      if (msg) msg.textContent = 'This sale has ended';
+      if (currentProduct) updatePrice();
+      clearInterval(timer);
+      return;
+    }
+    const d = Math.floor(diff / 86400);
+    const h = Math.floor((diff % 86400) / 3600);
+    const m = Math.floor((diff % 3600) / 60);
+    const s = diff % 60;
+    el.textContent = (d > 0 ? d + 'd ' : '') + pad(h) + ':' + pad(m) + ':' + pad(s);
+  }
+
+  tick();
+  const timer = setInterval(tick, 1000);
+})();
+
+// ================================================================
+// EVENT LISTENERS
+// ================================================================
+document.getElementById('checkoutModal').addEventListener('click', function (e) {
+  if (e.target === this) closeCheckout();
+});
+document.querySelectorAll('.form-group input').forEach(el => {
+  el.addEventListener('focus', () => { el.style.borderColor = 'var(--primary)'; });
+});
+
+// ================================================================
+// INIT
+// ================================================================
+route();
+</script>
+</body>
+</html>
