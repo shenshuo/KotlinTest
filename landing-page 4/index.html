@@ -1452,52 +1452,8 @@ function placeOrder() {
     utm_campaign: params.get('utm_campaign') || '',
   };
 
-  // Meta Pixel: user submitted checkout / payment info
-  if (window.fbq) {
-    fbq('track', 'AddPaymentInfo', {
-      value: +total,
-      currency: SITE.currency,
-      content_ids: [currentProduct.id],
-      content_type: 'product',
-    });
-  }
-
-  if (SITE.orderApiUrl) {
-    const btn = document.getElementById('payBtn');
-    btn.disabled = true;
-    btn.textContent = 'Processing...';
-
-    fetch(SITE.orderApiUrl, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ protoId: SITE.orderProtoId, body: body })
-    })
-      .then(r => r.json())
-      .then(data => {
-        const resp = (data && data.body) ? data.body : {};
-        const payUrl = resp.paymentUrl || resp.payment_url;
-        if (payUrl) {
-          showPaymentIframe(payUrl, email, total);
-        } else {
-          btn.disabled = false;
-          btn.textContent = 'Pay $' + total;
-          alert(resp.message || 'Order creation failed. Please try again.');
-        }
-      })
-      .catch(() => {
-        btn.disabled = false;
-        btn.textContent = 'Pay $' + total;
-        alert('Order error. Please try again.');
-      });
-    return;
-  }
-
-  // DEMO MODE
-  console.log('Order:', JSON.stringify(body, null, 2));
-  document.getElementById('orderId').textContent = 'ORD-' + Date.now().toString(36).toUpperCase();
-  document.getElementById('confirmEmail').textContent = email;
-  document.getElementById('step-checkout').style.display = 'none';
-  document.getElementById('step-success').style.display = 'block';
+  // Payment disabled — no action on click
+  return;
 }
 
 // ================================================================
